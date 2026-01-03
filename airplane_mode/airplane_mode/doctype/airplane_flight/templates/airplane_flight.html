@@ -1,0 +1,40 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<div style="max-width: 900px; margin: 0 auto; padding: 24px 12px;">
+	<div style="background: #0f172a; padding: 18px 20px; border-radius: 12px; color: #fff; margin-bottom: 22px; box-shadow: 0 12px 30px rgba(15, 23, 42, 0.22);">
+		<div style="font-size: 24px; font-weight: 700; letter-spacing: 0.4px;">{{ doc.name }}</div>
+		<div style="opacity: 0.82; margin-top: 4px;">{{ doc.airplane }}</div>
+	</div>
+
+	<div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.04);">
+		<h2 style="font-size: 22px; color: #111827; margin: 0 0 14px 0;">Flight Details</h2>
+		<ul style="list-style: none; padding: 0; margin: 0 0 18px 0; color: #4b5563; font-size: 15px;">
+			{% set airlines = frappe.get_all('Airplane', filters={'name': doc.airplane}, fields=['airline']) %}
+			{% for airline in airlines %}
+			<li style="margin: 6px 0; display: flex; gap: 8px; align-items: center;">
+				<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2563eb;"></span>
+				<span>Airline: {{ airline.airline }}</span>
+			</li>
+			{% endfor %}
+
+			<li style="margin: 6px 0; display: flex; gap: 8px; align-items: center;">
+				<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2563eb;"></span>
+				<span>{{ doc.source_airport_code }} → {{ doc.destination_airport_code }}</span>
+			</li>
+			<li style="margin: 6px 0; display: flex; gap: 8px; align-items: center;">
+				<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2563eb;"></span>
+				<span>{{ frappe.utils.formatdate(doc.date_of_departure, "yyyy-MM-dd") }} | {{ frappe.utils.format_time(doc.time_of_departure, "HH:mm") }}</span>
+			</li>
+			<li style="margin: 6px 0; display: flex; gap: 8px; align-items: center;">
+				<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2563eb;"></span>
+				<span>Duration: {{ frappe.utils.format_duration(doc.duration) }}</span>
+			</li>
+		</ul>
+
+        <a href="/flight-book/new?flight={{ doc.name }}&flight_price=1000" style="display: inline-block; background: #2563eb; color: #fff; padding: 12px 22px; border-radius: 8px; text-decoration: none; font-weight: 600; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);">
+            Book Flight 
+        </a>
+	</div>
+</div>
+{% endblock %}

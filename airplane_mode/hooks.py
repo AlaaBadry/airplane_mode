@@ -227,6 +227,8 @@ app_license = "mit"
 # 		"doctype": "{doctype_4}"
 # 	}
 # ]
+fixtures = [{"doctype": "Shop Type", "filters": [["enabled", "=", 1]]}]
+
 
 # Authentication and authorization
 # --------------------------------
@@ -241,4 +243,3 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-

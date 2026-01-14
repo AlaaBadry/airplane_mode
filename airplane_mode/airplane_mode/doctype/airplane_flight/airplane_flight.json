@@ -10,6 +10,7 @@
   "status",
   "source_airport",
   "source_airport_code",
+  "gate_number",
   "column_break_dmry",
   "date_of_departure",
   "time_of_departure",
@@ -18,7 +19,9 @@
   "destination_airport_code",
   "published",
   "route",
-  "amended_from"
+  "amended_from",
+  "section_break_rkxp",
+  "crew_members"
  ],
  "fields": [
   {
@@ -107,6 +110,22 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "section_break_rkxp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "crew_members",
+   "fieldtype": "Table",
+   "label": "Crew Members",
+   "options": "Flight Crew Member"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "gate_number",
+   "fieldtype": "Data",
+   "label": "Gate Number"
   }
  ],
  "grid_page_length": 50,
@@ -119,7 +138,7 @@
    "link_fieldname": "flight"
   }
  ],
- "modified": "2026-01-02 18:19:20.424461",
+ "modified": "2026-01-08 07:55:15.622804",
  "modified_by": "Administrator",
  "module": "Airplane Mode",
  "name": "Airplane Flight",

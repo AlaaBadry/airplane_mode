@@ -1,0 +1,21 @@
+<div class="card">
+	<header>
+		<h3>{{ doc.shop_name or doc.name }}</h3>
+		{% if doc.status == "Vacant" %}
+		<span class="label success">{{ doc.status }}</span>
+		{% else %}
+		<span class="label error">{{ doc.status }}</span>
+		{% endif %}
+	</header>
+	<section>
+		<p><strong>Shop No:</strong> {{ doc.shop_number }}</p>
+		<p><strong>Type:</strong> {{ doc.shop_type or "—" }}</p>
+		<p><strong>Area:</strong> {{ doc.area_sqm or "—" }} sqm</p>
+		{% if doc.rent_amount %}
+		<p><strong>Rent:</strong> {{ frappe.utils.fmt_money(doc.rent_amount, currency=frappe.defaults.get_global_default("currency")) }}</p>
+		{% endif %}
+	</section>
+	<footer>
+		<a href="{{ doc.route }}" class="button">View Details</a>
+	</footer>
+</div>

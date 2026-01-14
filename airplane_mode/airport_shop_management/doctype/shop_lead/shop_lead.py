@@ -1,9 +1,9 @@
-# Copyright (c) 2025, Alaa Badry and contributors
+# Copyright (c) 2026, Alaa Badry and contributors
 # For license information, please see license.txt
 
-import frappe
+# import frappe
 from frappe.model.document import Document
 
 
-class Airline(Document):
+class ShopLead(Document):
 	pass

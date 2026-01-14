@@ -2,6 +2,7 @@
  "actions": [],
  "autoname": "autoincrement",
  "creation": "2025-12-29 22:48:42.228838",
+ "description": "Passenger Data",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -13,6 +14,7 @@
  ],
  "fields": [
   {
+   "description": "First Name",
    "fieldname": "first_name",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -45,7 +47,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-31 13:24:20.755782",
+ "modified": "2026-01-06 00:07:46.216460",
  "modified_by": "Administrator",
  "module": "Airplane Mode",
  "name": "Flight Passenger",

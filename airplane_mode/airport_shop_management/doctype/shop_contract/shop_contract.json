@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{shop}-{tenant}",
+ "creation": "2026-01-08 15:34:32.635358",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_3lby",
+  "shop",
+  "monthly_rent",
+  "amended_from",
+  "status",
+  "due_date",
+  "column_break_tgsl",
+  "tenant",
+  "tenant_email",
+  "start_date",
+  "end_date",
+  "security_deposit"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_3lby",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Shop Contract",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "shop",
+   "fieldtype": "Link",
+   "label": "Shop",
+   "options": "Airport Shop"
+  },
+  {
+   "fieldname": "column_break_tgsl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Tenant",
+   "options": "Shop Tenant"
+  },
+  {
+   "fieldname": "monthly_rent",
+   "fieldtype": "Currency",
+   "label": "Monthly Rent"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "security_deposit",
+   "fieldtype": "Currency",
+   "label": "Security Deposit"
+  },
+  {
+   "fetch_from": "tenant.email",
+   "fieldname": "tenant_email",
+   "fieldtype": "Data",
+   "label": "Tenant Email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "\nPending\nPaid\nOverdue",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "Shop Rent Payment",
+   "link_fieldname": "contract"
+  }
+ ],
+ "modified": "2026-01-10 19:26:49.432922",
+ "modified_by": "Administrator",
+ "module": "Airport Shop Management",
+ "name": "Shop Contract",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Overdue"
+  },
+  {
+   "color": "Green",
+   "title": "Paid"
+  },
+  {
+   "color": "Orange",
+   "title": "Pending"
+  }
+ ],
+ "track_changes": 1
+}

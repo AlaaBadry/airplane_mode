@@ -11,8 +11,6 @@ from frappe.model.document import Document
 
 class AirplaneTicket(Document):
 	def validate(self):
-		frappe.errprint(self.flight_price)
-
 		# Remove duplicate add-ons
 		seen_items = []
 		items_to_remove = []
@@ -32,6 +30,13 @@ class AirplaneTicket(Document):
 				alert=True,
 			)
 
+		flight = frappe.get_doc("Airplane Flight", self.flight)
+
+		airplane = frappe.get_doc("Airplane", flight.airplane)
+
+		booked = frappe.db.count("Airplane Ticket", {"flight": self.flight, "docstatus": 1})
+		if booked >= airplane.capacity:
+			frappe.throw("Cannot book ticket: Flight is fully booked.")
 		# Calculate total amount
 		itemamount = 0
 		for item in self.add_ons:

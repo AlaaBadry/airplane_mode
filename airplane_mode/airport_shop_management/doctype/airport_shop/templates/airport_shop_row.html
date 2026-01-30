@@ -12,7 +12,7 @@
 		<p><strong>Type:</strong> {{ doc.shop_type or "—" }}</p>
 		<p><strong>Area:</strong> {{ doc.area_sqm or "—" }} sqm</p>
 		{% if doc.rent_amount %}
-		<p><strong>Rent:</strong> {{ frappe.utils.fmt_money(doc.rent_amount, currency=frappe.defaults.get_global_default("currency")) }}</p>
+		<p><strong>Rent:</strong> {{ frappe.utils.fmt_money(doc.rent_amount, currency=currency) }}</p>
 		{% endif %}
 	</section>
 	<footer>

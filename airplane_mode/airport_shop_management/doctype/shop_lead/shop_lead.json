@@ -5,18 +5,63 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_2tkc"
+  "shop",
+  "status",
+  "message",
+  "column_break_pusk",
+  "full_name",
+  "phone",
+  "email"
  ],
  "fields": [
   {
-   "fieldname": "section_break_2tkc",
-   "fieldtype": "Section Break"
+   "fieldname": "shop",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Shop",
+   "options": "Airport Shop",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "New\nContacted\nConverted\nRejected"
+  },
+  {
+   "fieldname": "column_break_pusk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Full Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Email",
+   "options": "Email",
+   "reqd": 1
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Small Text",
+   "label": "Message"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-08 14:46:59.266485",
+ "modified": "2026-01-15 07:49:09.576422",
  "modified_by": "Administrator",
  "module": "Airport Shop Management",
  "name": "Shop Lead",

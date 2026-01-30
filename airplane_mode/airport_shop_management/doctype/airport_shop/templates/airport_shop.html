@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{{ doc.shop_name or doc.name }}</title>
-	<style>
-		{% include "airplane_mode/public/css/picnic.css" %}
-	</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ doc.shop_name or doc.name }}</title>
+    <style>
+        {% include "airplane_mode/public/css/picnic.css" %}
+    </style>
 </head>
 <body>
-	<main style="max-width: 900px; margin: 3em auto; padding: 0 1em;">
-		<div class="card">
-			<header>
-				<h1>{{ doc.shop_name or doc.name }}</h1>
-				{% if doc.status == "Vacant" %}
-				<span class="label success">{{ doc.status }}</span>
-				{% else %}
-				<span class="label error">{{ doc.status }}</span>
-				{% endif %}
-			</header>
-		</div>
+    <main style="max-width: 900px; margin: 3em auto; padding: 0 1em;">
+        <div class="card">
+            <header>
+                <h1 style="color: rgb(18, 21, 233);">{{ doc.shop_name or doc.name }}</h1>
+                {% if doc.status == "Vacant" %}
+                <span class="label success">{{ doc.status }}</span>
+                {% else %}
+                <span class="label error">{{ doc.status }}</span>
+                {% endif %}
+            </header>
+        </div>
 
-		<div class="flex two">
-			<div>
-				<div class="card">
-					<header><h3>Shop Information</h3></header>
-					<section>
-						<p><strong>Shop Number:</strong> {{ doc.shop_number }}</p>
-						<p><strong>Airport:</strong> {{ doc.airport }}</p>
-						<p><strong>Shop Type:</strong> {{ doc.shop_type or "—" }}</p>
-						<p><strong>Area:</strong> {{ doc.area_sqm or "—" }} sqm</p>
-						<p><strong>Status:</strong> {{ doc.status or "Vacant" }}</p>
-					</section>
-				</div>
-			</div>
+        <div class="flex two">
+            <div>
+                <div class="card">
+                    <header><h3>Shop Information</h3></header>
+                    <section>
+                        <p><strong>Shop Number:</strong> {{ doc.shop_number }}</p>
+                        <p><strong>Airport:</strong> {{ doc.airport }}</p>
+                        <p><strong>Shop Type:</strong> {{ doc.shop_type or "—" }}</p>
+                        <p><strong>Area:</strong> {{ doc.area_sqm or "—" }} sqm</p>
+                        <p><strong>Status:</strong> {{ doc.status or "Vacant" }}</p>
+                    </section>
+                </div>
+            </div>
 
-			<div>
-				<div class="card">
-					<header><h3>Rental Details</h3></header>
-					<section>
-						{% if doc.rent_amount %}
-						<p><strong>Monthly Rent:</strong> {{ frappe.utils.fmt_money(doc.rent_amount, currency=frappe.defaults.get_global_default("currency")) }}</p>
-						{% else %}
-						<p><strong>Monthly Rent:</strong> —</p>
-						{% endif %}
-						<p><strong>Current Contract:</strong> {{ doc.current_contract or "—" }}</p>
-						<p><strong>Start Date:</strong> {{ frappe.utils.formatdate(doc.start_date) if doc.start_date else "—" }}</p>
-						<p><strong>End Date:</strong> {{ frappe.utils.formatdate(doc.end_date) if doc.end_date else "—" }}</p>
-					</section>
-				</div>
-			</div>
-		</div>
+            <div>
+                <div class="card">
+                    <header><h3>Rental Details</h3></header>
+                    <section>
+                        {% if doc.rent_amount %}
+                        <p><strong>Monthly Rent:</strong> {{ frappe.utils.fmt_money(doc.rent_amount, currency=currency) }}</p>
+                        {% else %}
+                        <p><strong>Monthly Rent:</strong> —</p>
+                        {% endif %}
+                        <p><strong>Current Contract:</strong> {{ doc.current_contract or "—" }}</p>
+                        <p><strong>Start Date:</strong> {{ frappe.utils.formatdate(doc.start_date) if doc.start_date else "—" }}</p>
+                        <p><strong>End Date:</strong> {{ frappe.utils.formatdate(doc.end_date) if doc.end_date else "—" }}</p>
+                    </section>
+                </div>
+            </div>
+        </div>
 
-		{% if doc.tenant_name %}
-		<div class="card">
-			<header><h3>Tenant Information</h3></header>
-			<section>
-				<p><strong>Tenant:</strong> {{ doc.tenant_name }}</p>
-				<p><strong>Email:</strong> {{ doc.tenant_email or "—" }}</p>
-			</section>
-		</div>
-		{% endif %}
+        {% if doc.tenant_name %}
+        <div class="card">
+            <header><h3>Tenant Information</h3></header>
+            <section>
+                <p><strong>Tenant:</strong> {{ doc.tenant_name }}</p>
+                <p><strong>Email:</strong> {{ doc.tenant_email or "—" }}</p>
+            </section>
+        </div>
+        {% endif %}
 
-		{% if doc.status == "Vacant" %}
-		<div class="card">
-			<section>
-				<p><strong>Interested in renting this shop?</strong></p>
-				<p>Contact us to learn more about this available space.</p>
-			</section>
-			<footer>
-				<a href="/contact" class="button">Contact Us</a>
-			</footer>
-		</div>
-		{% endif %}
-	</main>
+        {% if doc.status == "Vacant" %}
+        <div class="card">
+            <section>
+                <p><strong>Interested in renting this shop?</strong></p>
+                <p>Contact us to learn more about this available space.</p>
+            </section>
+            <footer>
+                <a href="/shop-lead/new?shop={{ doc.name }}" class="button">Rent This Shop</a>
+            </footer>
+        </div>
+        {% endif %}
+    </main>
 </body>
 </html>

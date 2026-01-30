@@ -74,25 +74,100 @@ class ShopContract(Document):
 
 
 def update_overdue_contracts():
-	"""Scheduled task to mark contracts as overdue.
+    """Scheduled task to mark contracts as overdue.
 
-	This function is called by Frappe's scheduler daily to check all submitted contracts
-	and automatically mark them as "Overdue" if their due_date has passed and payment status is not "Paid".
-	It runs in the background without manual intervention.
-	"""
-	contracts = frappe.get_all(
-		"Shop Contract",
-		filters={
-			"docstatus": 1,
-			"status": ["in", ["Pending", ""]],
-			"due_date": ["<", today()]
-		},
-		pluck="name"
-	)
+    This function is called by Frappe's scheduler daily to check all submitted contracts
+    and automatically mark them as "Overdue" if their due_date has passed and payment status is not "Paid".
+    It runs in the background without manual intervention.
+    """
+    contracts = frappe.get_all(
+        "Shop Contract",
+        filters={
+            "docstatus": 1,
+            "status": ["in", ["Pending", ""]],
+            "due_date": ["<", today()]
+        },
+        pluck="name",
+    )
 
-	for contract in contracts:
-		frappe.db.set_value("Shop Contract", contract, "status", "Overdue", update_modified=False)
+    for contract in contracts:
+        frappe.db.set_value("Shop Contract", contract, "status", "Overdue", update_modified=False)
 
-	if contracts:
-		frappe.db.commit()
-		frappe.logger().info(f"Marked {len(contracts)} contracts as overdue")
+    if contracts:
+        frappe.db.commit()
+        frappe.log_error(f"Marked {len(contracts)} contracts as overdue", "Shop Contract - Overdue Update")
+
+
+def send_rent_reminders():
+    """Scheduled task to send rent reminders to tenants.
+
+    This function is called by Frappe's scheduler daily to check all submitted contracts
+    and send email reminders to tenants when rent payment is due or overdue.
+    Runs in the background without manual intervention.
+    """
+    today_date = today()
+
+    # Get contracts where payment is due soon or overdue
+    contracts = frappe.get_all(
+        "Shop Contract",
+        filters={
+            "docstatus": 1,
+            "status": ["in", ["Pending", "Overdue"]],
+            "due_date": ["<=", today_date],
+            "tenant_email": ["!=", ""],
+        },
+        fields=["name", "tenant", "tenant_email", "shop", "monthly_rent", "due_date", "status"],
+    )
+
+    reminder_count = 0
+
+    for contract in contracts:
+        try:
+            # Prepare email content
+            subject = f"Rent Reminder: Payment Due for Shop {contract.get('shop')}"
+
+            message = f"""
+            <p>Dear {contract.get('tenant')},</p>
+
+            <p>This is a reminder that your rent payment for shop <strong>{contract.get('shop')}</strong> is due.</p>
+
+            <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
+                <tr style="background-color: #f5f5f5;">
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Monthly Rent</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{contract.get('monthly_rent')}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Due Date</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{contract.get('due_date')}</td>
+                </tr>
+                <tr style="background-color: #f5f5f5;">
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Status</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><span style="color: {'red' if contract.get('status') == 'Overdue' else 'orange'};">{contract.get('status')}</span></td>
+                </tr>
+            </table>
+
+            <p>Please arrange payment at your earliest convenience to avoid late fees.</p>
+
+            <p>If you have already made this payment, please disregard this reminder.</p>
+
+            <p>Best regards,<br>Airport Shop Management</p>
+            """
+
+            # Send email
+            frappe.sendmail(
+                recipients=[contract.get('tenant_email')],
+                subject=subject,
+                message=message,
+                reference_doctype="Shop Contract",
+                reference_name=contract.get('name'),
+            )
+
+            reminder_count += 1
+            frappe.log_error(f"Rent reminder sent for contract {contract.get('name')} to {contract.get('tenant_email')}", "Rent Reminder - Success")
+
+        except Exception as e:
+            frappe.log_error(f"Failed to send reminder for contract {contract.get('name')}: {str(e)}", "Rent Reminder - Error")
+
+    if reminder_count > 0:
+        frappe.db.commit()
+        frappe.log_error(f"Sent {reminder_count} rent reminders", "Rent Reminder - Summary")
